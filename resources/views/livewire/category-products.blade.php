@@ -5,13 +5,11 @@
         <ul class="glider-{{$category->id}}">
 
             @foreach ($products as $product)
-
             <li class="bg-white rounded-lg shadow-md {{ $loop->last ? '' : 'sm:mr-4' }}">
                 <article>
                     <figure>
-
                         <a href="{{route('products.show',$product)}}">
-                            <img class=" rounded-lg h-30 w-full object-cover object-center"
+                            <img class=" rounded-lg w-full object-cover object-center"
                                 src="{{ Storage::url($product->images->first()->url) }}" alt="">
                         </a>
                     </figure>
@@ -19,11 +17,11 @@
                     <div class="py-4 px-6">
                         <h1 class="text-md font-semibold">
                             <a href="{{route('products.show',$product)}}">
-                                {{Str::limit($product->name, 20)}}
+                                {{Str::limit($product->name, 30)}}
                             </a>
                         </h1>
 
-                        <p class="font-bold text-trueGray-700">US$ {{$product->price}}</p>
+                        <p class="text-trueGray-700">US ${{$product->price}}</p>
                     </div>
                 </article>
             </li>

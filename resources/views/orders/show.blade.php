@@ -63,23 +63,27 @@
         <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
             <div class="grid grid-cols-2 gap-6 text-gray-700">
                 <div>
-                    <p class="text-lg font-semibold uppercase">Envio</p>
+                    
                     @if ($order->envio_type==1)
-                    <p class="text-sm">Los Productos deben ser recogidos en la tienda</p>
+                    <p class="text-lg font-semibold">Envio<i class="fas fa-store text-lg text-gray-700"></i></p>
+                        <p class="text-sm">Los Productos deben ser recogidos en la tienda</p>
+                 
                     <p class="text-sm">Calle Falsa y Avenida123</p>
                     @else
+                    <p class="text-lg font-semibold">Envio  <i class="fas fa-truck text-3xl text-gray-700"></i></p>
                     <p class="text-sm">Los Productos seran enviados a:</p>
-                    <p class="text-sm">{{$order->address}}</p>
-                    <p>{{$order->department->name}}-{{$order->city->name}}- {{$order->district->name}}</p>
+                     <p class="text-sm"> <i class="fas fa-address-card"></i> {{$order->address}}</p>
+                    <p><i class="fas fa-map-pin"></i> {{$order->department->name}}-{{$order->city->name}}- {{$order->district->name}}</p>
                     @endif
                 </div>
 
 
                 <div>
-                    <p class="text-lg font-semibold uppercase">Datos de Contacto</p>
+                    <p class="text-lg font-semibold">Datos de Contacto</p>
 
-                    <p class="text-sm">Persona que recibira el producto:{{$order->contact}}</p>
-                    <p class="text-sm">Telefono de Contacto:{{$order->phone}}</p>
+                    <p class="text-sm font-bold"><i class="fas fa-user mr-1"></i>Persona que recibira el producto: <span
+                            class="font-normal">{{$order->contact}}</span></p>
+                    <p class="text-sm"> <i class="fas fa-phone mr-1"></i>Telefono de Contacto:{{$order->phone}}</p>
 
                 </div>
             </div>
@@ -120,13 +124,13 @@
                             </div>
                         </td>
                         <td class="text-center">
-                            {{$item->price}} USD
+                            ${{$item->price}}
                         </td>
                         <td class="text-center">
                             {{$item->qty}}
                         </td>
                         <td class="text-center">
-                            {{$item->price*$item->qty}} USD
+                            ${{$item->price*$item->qty}}
                         </td>
                     </tr>
                     @endforeach

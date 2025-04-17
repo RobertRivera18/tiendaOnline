@@ -23,9 +23,11 @@
             <p class="mt-6 mb-3 text-lg text-gray-700 font-semibold">Envíos</p>
 
             <label class="bg-white rounded-lg shadow px-6 py-4 flex items-center mb-4 cursor-pointer">
-                <input x-model="envio_type" type="radio" value="1" name="envio_type" class="text-gray-600">
+                <input x-model="envio_type" type="radio" value="1" name="envio_type" class="text-gray-600 mr-1">
+                <i class="fas fa-store text-gray-700 text-xl ml-1"></i>
                 <span class="ml-2 text-gray-700">
                     Recojo en tienda (Calle Falsa 123)
+
                 </span>
 
                 <span class="font-semibold text-gray-700 ml-auto">
@@ -35,7 +37,8 @@
 
             <div class="bg-white rounded-lg shadow-lg">
                 <label class="px-6 py-4 flex items-center cursor-pointer">
-                    <input x-model="envio_type" type="radio" value="2" name="envio_type" class="text-gray-600">
+                    <input x-model="envio_type" type="radio" value="2" name="envio_type" class="text-gray-600 mr-1">
+                    <i class="fas fa-truck text-gray-700 text-xl ml-1"></i>
                     <span class="ml-2 text-gray-700">
                         Envío a domicilio
                     </span>
@@ -96,96 +99,101 @@
                         <x-input class="w-full" wire:model="references" type="text" />
                         <x-input-error for="references" />
                     </div>
-
-
-
-
-
                 </div>
             </div>
 
         </div>
 
 
-        <div>
-            <x-button wire:loading.attr="disabled" wire:target="create_order" class="mt-6 mb-4"
-                wire:click="create_order">
-                Continuar con la compra
-            </x-button>
-            <hr>
-            <p class="text-sm text-gray-700 mt-2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi
-                consectetur non doloribus officia aperiam laudantium <a href=""
-                    class="font-semibold text-orange-500">Politicas y Privacidad</a></p>
-        </div>
-
+       
 
     </div>
     <div class="order-1 lg:order-2 lg:col-span-1 xl:col-span-2">
-        <div class="bg-white rounded-lg shadow-lg p-6">
-            <ul>
-                @forelse (Cart::content() as $item)
-                <li class="flex p-2 border-b border-gray-200">
-                    <img class="h-15 w-20 object-cover mr-4 rounded-md" src="{{$item->options->image}}" alt="">
-                    <article class="flex-1">
-                        <h1 class="font-bold">{{$item->name}}</h1>
-                        <div class="flex">
-                            <p>Cant:{{$item->qty}}</p>
-
-                            @isset($item->options['color'])
-                            <p class="mx-2">- Color: {{$item->options['color']}}</p>
-                            @endisset
-
-                            @isset($item->options['size'])
-                            <p>Talla: {{$item->options['size']}}</p>
-                            @endisset
-                        </div>
-
-                        <p>USD ${{$item->price}}</p>
-
-                    </article>
-                </li>
-                @empty
-                <li class="py-4 px-4">
-                    <p class="text-center text-gray-700 ">
-                        No tiene agregado ningun item en el carrito
+        <div class="col-span-1">
+            <div class="bg-white rounded-lg shadow overflow-hidden mb-4">
+                <div class="bg-black text-white p-4 flex justify-between">
+                    <p class="font-semibold">
+                        Resumen de compra ({{Cart::content()->count()}} Producto)
                     </p>
-                </li>
-                @endforelse
-            </ul>
-            <hr class="mt-4 mb-3">
-            <div class="text-gray-700">
-                <p class="flex justify-between items-center">Subtotal
-                    <span class="font-semibold ">{{Cart::subTotal()}}USD</span>
-                </p>
+                    <a href="{{route('orders.create')}}" previewlistener="true">
+                        <i class="fas fa-shopping-cart"></i>
+                    </a>
+                </div>
+                <div class="p-4 text-gray-600">
+                    <ul>
+                        @forelse (Cart::content() as $item)
+                        <li class="flex items-center space-x-4 space-y-2">
+                            <figure class="shrink-0">
+                                <img class="h-12 aspect-square" src="{{$item->options->image}}" alt="">
+                            </figure>
 
-                <p class="flex justify-between items-center">Envio
-                    <span class="font-semibold ">
-                        @if ($envio_type==1|| $shipping_cost==0)
-                        Gratis
-                        @else
-                        {{$shipping_cost}} USD
-                        @endif
+                            <div class="flex-1">
+                                <p class="text-sm">{{$item->name}}</p>
+                                <p class="text-gray-500">${{$item->price}}</p>
 
+                                <div class="flex items-center space-x-4">
+                                    @isset($item->options['color'])
+                                    <p class="mx-1">Color: {{$item->options['color']}}</p>
+                                    @endisset
+    
+                                    @isset($item->options['size'])
+                                    <p>Talla: {{$item->options['size']}}</p>
+                                    @endisset
+                                </div>
+                                
+                            </div>
+                            <div class="shrink-0 flex items-center justify-center">
+                                <p class="flex items-center justify-center rounded-full bg-gray-300 w-6 h-6 text-center text-md font-bold">
+                                    {{$item->qty}}
+                                </p>
+                            </div>
+                            
+                        </li>
+                        @empty
+                        <li class="py-4 px-4">
+                            <p class="text-center text-gray-700 ">
+                                No tiene agregado ningun item en el carrito
+                            </p>
+                        </li>
+                        @endforelse
+                    </ul>
+                    <hr class="mt-4 mb-3">
+                    <div class="text-gray-700">
+                        <p class="flex justify-between items-center">Subtotal
+                            <span class="font-semibold">${{Cart::subTotal()}}</span>
+                        </p>
 
-                    </span>
-                </p>
-                <hr class="mt-4 mb-3">
+                        <p class="flex justify-between items-center">Envio
+                            <span class="font-semibold ">
+                                @if ($envio_type==1|| $shipping_cost==0)
+                                Gratis
+                                @else
+                                ${{$shipping_cost}}
+                                @endif
 
-                <p class="flex justify-between items-center font-semibold">
-                    <span class="text-lg">Total</span>
+                            </span>
+                        </p>
+                    
+                        <p class="flex justify-between items-center font-semibold">
+                            <span class="text-lg">Total</span>
 
-                    @if ($envio_type==1)
-                    {{Cart::subTotal()}}USD
-                    @else
-                    {{Cart::subTotal()+ $shipping_cost}}USD
-                    @endif
-
-
-                </p>
+                            @if ($envio_type==1)
+                            ${{Cart::subTotal()}}
+                            @else
+                            ${{Cart::subTotal()+ $shipping_cost}}
+                            @endif
+                        </p>
+                    </div>
+                </div>
             </div>
 
-
+            <a class=" cursor-pointer outline-none inline-flex justify-center items-center group hover:shadow-sm focus:ring-offset-background-white dark:focus:ring-offset-background-dark transition-all ease-in-out duration-200 focus:ring-2 disabled:opacity-80 disabled:cursor-not-allowed text-white bg-green-500 dark:bg-green-700 hover:text-white hover:bg-green-600 dark:hover:bg-green-600 focus:text-white focus:ring-offset-2 focus:bg-green-600 focus:ring-green-600 dark:focus:bg-green-600 dark:focus:ring-green-600 rounded-md gap-x-2 text-sm px-4 py-2 w-full"
+            wire:loading.attr="disabled" wire:target="create_order" class="mt-6 mb-4"
+            wire:click="create_order">
+                Siguiente
+            </a>
         </div>
     </div>
-</div>
 
+
+</div>

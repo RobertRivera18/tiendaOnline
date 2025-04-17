@@ -3,7 +3,7 @@
     <form action="{{route('search')}}" autocomplete="off">
         <x-input name="name" wire:model="search" type="text" class="w-full" placeholder="¿Estas buscando algun producto"></x-input>
 
-        <button class="absolute top-0 right-0 w-12 h-full bg-orange-500 rounded-r-md flex items-center justify-center">
+        <button class="absolute top-0 right-0 w-12 h-full bg-gray-800 rounded-r-md flex items-center justify-center">
             <x-search size="35" color="white" />
         </button>
 

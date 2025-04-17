@@ -10,26 +10,26 @@
         <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
             <div class="grid grid-cols-2 gap-6 text-gray-700">
                 <div>
-                    <p class="text-lg font-semibold uppercase">Envío</p>
-
-                    @if ($order->envio_type == 1)
-                        <p class="text-sm">Los productos deben ser recogidos en tienda</p>
-                        <p class="text-sm">Calle falsa 123</p>
+                    
+                    @if ($order->envio_type==1)
+                    <p class="text-lg font-semibold">Envio<i class="fas fa-store text-lg text-gray-700"></i></p>
+                        <p class="text-sm">Los Productos deben ser recogidos en la tienda</p>
+                 
+                    <p class="text-sm">Calle Falsa y Avenida123</p>
                     @else
-                        <p class="text-sm">Los productos Serán enviados a:</p>
-                        <p class="text-sm">{{ $order->address }}</p>
-                        <p>{{ $order->department }} - {{ $order->city }} - {{ $order->district }}
-                        </p>
+                    <p class="text-lg font-semibold">Envio  <i class="fas fa-truck text-3xl text-gray-700"></i></p>
+                    <p class="text-sm">Los Productos seran enviados a:</p>
+                     <p class="text-sm"> <i class="fas fa-address-card"></i> {{$order->address}}</p>
+                    <p><i class="fas fa-map-pin"></i> {{$order->department->name}}-{{$order->city->name}}- {{$order->district->name}}</p>
                     @endif
-
-
                 </div>
 
                 <div>
-                    <p class="text-lg font-semibold uppercase">Datos de contacto</p>
+                    <p class="text-lg font-semibold">Datos de Contacto</p>
+                    <p class="text-sm font-bold"><i class="fas fa-user mr-1"></i>Persona que recibira el producto: <span
+                            class="font-normal">{{$order->contact}}</span></p>
+                    <p class="text-sm"> <i class="fas fa-phone mr-1"></i>Telefono de Contacto:{{$order->phone}}</p>
 
-                    <p class="text-sm">Persona que recibirá el producto: {{ $order->contact }}</p>
-                    <p class="text-sm">Teléfono de contacto: {{ $order->phone }}</p>
                 </div>
             </div>
         </div>
@@ -45,8 +45,9 @@
                         <th>Cant</th>
                         <th>Total</th>
                     </tr>
+                    
                 </thead>
-
+             
                 <tbody class="divide-y divide-gray-200">
                     @foreach ($items as $item)
                         <tr>
@@ -69,9 +70,9 @@
                                     </article>
                                 </div>
                             </td>
-
+                            <hr>
                             <td class="text-center">
-                                {{ $item->price }} USD
+                                ${{ $item->price }}
                             </td>
 
                             <td class="text-center">
@@ -79,8 +80,9 @@
                             </td>
 
                             <td class="text-center">
-                                {{ $item->price * $item->qty }} USD
+                                ${{ $item->price * $item->qty }}
                             </td>
+                            
                         </tr>
                     @endforeach
                 </tbody>
@@ -97,13 +99,13 @@
                 <img class="h-8" src="{{ asset('img/pagos.jpg') }}" alt="">
                 <div class="text-gray-700">
                     <p class="text-sm font-semibold">
-                        Subtotal: {{ $order->total - $order->shipping_cost }} USD
+                        Subtotal: ${{ $order->total - $order->shipping_cost }}
                     </p>
                     <p class="text-sm font-semibold">
-                        Envío: {{ $order->shipping_cost }} USD
+                        Envío: ${{ $order->shipping_cost }}
                     </p>
                     <p class="text-lg font-semibold uppercase">
-                        Total: {{ $order->total }} USD
+                        Total: ${{ $order->total }}
                     </p>
 
                     <div class="cho-container">
@@ -122,12 +124,10 @@
 
 
 @push('script')
-    
 
     <script src="https://www.paypal.com/sdk/js?client-id={{ config('services.paypal.client_id') }}">
         // Replace YOUR_CLIENT_ID with your sandbox client ID
     </script>
-
 
     <script>
         paypal.Buttons({

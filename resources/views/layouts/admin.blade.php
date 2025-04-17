@@ -55,6 +55,7 @@
 
     @livewireScripts
 
+    @stack('js')
     @stack('script')
     <script>
         Livewire.on('errorSize',mensaje=>{

@@ -12,7 +12,6 @@
                     class="absolute top-0 right-0 inline-block w-2 h-2 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full"></span>
                 @endif
 
-
             </span>
         </x-slot>
 

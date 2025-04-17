@@ -17,7 +17,7 @@
                 </label>
                 @endforeach
             </div>
-
+               
             <x-input-error for="color_id" />
         </div>
 

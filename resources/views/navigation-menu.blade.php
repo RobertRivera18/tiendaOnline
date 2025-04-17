@@ -19,6 +19,9 @@
                     <x-nav-link href="{{route('admin.orders.index')}}" :active="request()->routeIs('admin.orders.*')">
                         Ordenes
                     </x-nav-link>
+                    <x-nav-link href="{{route('admin.covers.index')}}" :active="request()->routeIs('admin.covers.*')">
+                        Portadas
+                    </x-nav-link>
                     
                     <x-nav-link href="{{route('admin.categories.index')}}" :active="request()->routeIs('admin.categories.*')">
                         Categorias

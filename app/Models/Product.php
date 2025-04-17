@@ -70,4 +70,32 @@ class Product extends Model
     {
         return $this->hasMany(Review::class);
     }
+
+    public function scopeFilter($query, $filters)
+{
+    $query->when($filters['category'] ?? null, function ($query, $category) {
+        $query->whereHas('subcategory.category', function ($q) use ($category) {
+            $q->where('id', $category->id);
+        });
+    });
+
+    $query->when($filters['subcategory'] ?? null, function ($query, $subcategories) {
+        $query->whereHas('subcategory', function ($q) use ($subcategories) {
+            $q->whereIn('slug', (array) $subcategories);
+        });
+    });
+
+    $query->when($filters['brand'] ?? null, function ($query, $brands) {
+        $query->whereHas('brand', function ($q) use ($brands) {
+            $q->whereIn('name', (array) $brands);
+        });
+    });
+
+    $query->when($filters['order'] ?? null, function ($query, $order) {
+        $query->orderBy('id', $order === 'old' ? 'asc' : 'desc');
+    }, function ($query) {
+        $query->orderBy('id', 'desc');
+    });
+}
+
 }
