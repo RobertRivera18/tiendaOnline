@@ -3,8 +3,8 @@
         <form action="{{ route('admin.covers.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <figure class="relative mb-4">
-                <div class="absolute top-8 right-8">
-                    <label class="flex  items-center px-4 py-2 rounded-lg">
+                <div class="absolute top-4 right-4">
+                    <label class="flex  items-center px-4 py-2 rounded-lg bg-white">
                         <i class="fas fa-camera mr-2"></i>
                         Actualizar imagen
                         <input type="file" class="hidden" accept="image/*" name="image"
@@ -13,7 +13,14 @@
                 </div>
 
 
-                <img src="{{ asset('img/no-image.svg') }}" alt="" class="w-full aspect-[3/1] object-cover object-center" id="imgPreview">
+                <div class="aspect-[3/1] bg-gray-100 rounded-lg overflow-hidden">
+                    <img 
+                        src="{{ asset('img/no-image.svg') }}" 
+                        alt="Imagen de portada" 
+                        id="imgPreview"
+                        class="w-full h-full object-contain object-center transition duration-300"
+                    >
+                </div>
             </figure>
             <div class="mb-4">
                 <x-label>

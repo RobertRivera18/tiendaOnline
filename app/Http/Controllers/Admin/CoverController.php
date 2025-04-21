@@ -16,7 +16,8 @@ class CoverController extends Controller
      */
     public function index()
     {
-        return view('admin.covers.index');
+        $covers = Cover::orderBy('order')->get();
+        return view('admin.covers.index', compact('covers'));
     }
 
     /**
@@ -37,7 +38,7 @@ class CoverController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate([
+        $cover = $request->validate([
             'image' => 'required|image|max:1024',
             'title' => 'required|string|max:255',
             'start_at' => 'required|date',
@@ -45,8 +46,8 @@ class CoverController extends Controller
             'is_active' => 'required|boolean',
         ]);
 
-        $data['image_path'] = Storage::put('covers', $data['image']);
-        Cover::create($data);
+        $cover['image_path'] = Storage::put('covers', $cover['image']);
+        Cover::create($cover);
         return redirect()->route('admin.covers.index');
     }
 
@@ -69,7 +70,7 @@ class CoverController extends Controller
      */
     public function edit(Cover $cover)
     {
-        //
+        return view('admin.covers.edit', compact('cover'));
     }
 
     /**
@@ -81,7 +82,20 @@ class CoverController extends Controller
      */
     public function update(Request $request, Cover $cover)
     {
-        //
+        $data = $request->validate([
+            'image' => 'nullable|image|max:1024',
+            'title' => 'required|string|max:255',
+            'start_at' => 'required|date',
+            'end_at' => 'nullable|date|after:start_at',
+            'is_active' => 'required|boolean',
+        ]);
+
+        if (isset($data['image'])) {
+            Storage::delete($cover->image_path);
+            $data['image_path'] = Storage::put('covers', $data['image']);
+        }
+        $cover->update($data);
+        return redirect()->route('admin.covers.edit', $cover);
     }
 
     /**
